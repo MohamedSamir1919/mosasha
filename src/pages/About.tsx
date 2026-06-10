@@ -1,0 +1,74 @@
+import React from 'react'
+import Footer from '../components/Footer'
+type Props = {}
+
+const About = (props: Props) => {
+    return (
+        <div className="flex flex-col justify-center mt-[100px] items-center">
+            {/* <h1 className="outline">KON</h1> */}
+            <img src='/SaSha.png' className="w-[200px] h-[200px] rounded-[50%]" />
+            <div className="flex">
+                <p className="float-left">
+                    <img className="float-right h-[200px] sm:flex hidden" src={`/question.png`} />
+
+                    We are a created this website for make our items available for you in simple way<br />
+                    We appreciate your support and we hope you enjoy using our website and find what you are looking for.
+                    <br />
+                    We hope to sign up for get discounts and offers and get the best experience with us.
+
+                </p>
+            </div>
+            <div className="w-full flex justify-center items-center">
+                <div className="w-full grid  grid-flow-row md:p-4 grid-cols-2 sm:grid-cols-3">
+                    <div className="col-span-1 flex flex-col m-auto">
+                        <div className="
+                    rounded-[50%] overflow-hidden w-[150px] h-[150px] flex justify-center items-center bg-gray-200
+                    ">
+                            <img className="w-[100px] " src="/none.png" />
+                        </div>
+                        <div className="w-[150px]">
+                            <h3 className="text-gray-300">Mohamed Samir </h3>
+                            <p className="">
+                                Website developer, Some owner in some way, I am happy to be here
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <div className="col-span-1 flex flex-col m-auto">
+                        <div className="
+                    rounded-[50%] overflow-hidden w-[150px] h-[150px] flex justify-center items-center bg-gray-200
+                    ">
+                            <img className="w-[100px] " src="/none.png" />
+                        </div>
+                        <div className="w-[150px]">
+                            <h3 className="text-gray-300">Ahmed Samir </h3>
+                            <p className="">
+                                Owner of the company, He is the backbone of it
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="col-span-1 flex flex-col m-auto">
+                        <div className="
+                    rounded-[50%] overflow-hidden w-[150px] h-[150px] flex justify-center items-center bg-gray-200
+                    ">
+                            <img className="w-[100px] " src="/none.png" />
+                        </div>
+                        <div className="w-[150px]">
+                            <h3 className="text-gray-300">Samir Shaaban</h3>
+                            <p className="">
+                                Sponsor, We are grateful for his support
+                            </p>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <Footer />
+        </div>
+    )
+}
+
+export default About
