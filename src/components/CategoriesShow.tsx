@@ -170,7 +170,7 @@ const CategoriesShow = (props: Props) => {
                         }}
                         className="font-black men px-8  cursor-pointer bg-gradient-to-r text-gray-400 from-gray-700  to-black rounded-lg text-[32px]">{t("who are we ?")}</div>
                 </div>
-                <img className="w-full" src='/pngwing.com.png' />
+                <img className="w-full" src='/mosasha/pngwing.com.png' />
             </div>
         </div>
     )

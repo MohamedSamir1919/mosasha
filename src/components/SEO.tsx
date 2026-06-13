@@ -56,7 +56,7 @@ export const SEO: React.FC<SEOProps> = ({
                     "@type": "Product",
                     "name": productData.title,
                     "image": [
-                        `${import.meta.env.VITE_SERVER}/images/products/${productData.img}`
+                        `${productData.img}`
                     ],
                     "description": productData.description,
                     "sku": productData._id,

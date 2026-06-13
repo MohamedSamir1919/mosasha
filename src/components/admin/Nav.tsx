@@ -30,7 +30,7 @@ const Nav = (props: Props) => {
                         </div>
                         <hr className="w-full h-[1px] bg-[gray]" />
                         <div
-                                onClick={() => navigate('/admin/dashboard')}
+                                onClick={() => navigate('/admin')}
                                 className="w-full mr-4 cursor-pointer p-1 text-gray-700 flex justify-between items-center">
                                 <h5 className="text-[14px]">Dashboard</h5>
                                 <MdDashboard />

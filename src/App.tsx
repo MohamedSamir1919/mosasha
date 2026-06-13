@@ -1,7 +1,7 @@
 
 import HomeLayout from './pages/layout/HomeLayout'
 import './App.css'
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import Home from './pages/Home'
 import Shopping from './pages/Shopping'
 import Product from './pages/Product';
@@ -26,7 +26,7 @@ function App() {
 
   return (
     <>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path="/" element={<HomeLayout />}>
             <Route index element={<Home />} />
@@ -42,19 +42,19 @@ function App() {
           <Route path="/post/:id" element={<Post />} /> */}
           </Route>
           <Route path="/admin" element={<Adminlayout />}>
-            <Route index element={<Login />} />
-            <Route path='/admin/dashboard' element={<Dashboard />} />
+            <Route index element={<Dashboard />} />
+            {/* <Route path='/dashboard' element={<Dashboard />} /> */}
             <Route path="/admin/products" element={<Products />} />
             <Route path="/admin/sells" element={<Sells />} />
             <Route path="/admin/orders" element={<Orders />} />
             <Route path="/admin/users" element={<Users />} />
             <Route path="/admin/settings" element={<Settings />} />
             <Route path="/admin/collections" element={<Collections />} />
-            <Route path="/admin/posts" element={<PostsManager />} />
+            {/* <Route path="/posts" element={<PostsManager />} /> */}
 
           </Route>
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </>
   )
 }

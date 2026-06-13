@@ -12,20 +12,20 @@ const Posts = (props: Props) => {
   //   { id: 4, title: "Setting up a secure lab environment using DNSChef and Scapy.", date: "April 25, 2026" },
   //   { id: 5, title: "Reflecting on the power of structural digital relationships in programming.", date: "April 02, 2026" }
   // ];
-const [posts, setPosts] = useState([]);
-const getPosts = async () =>{
-  try{
-    const response = await axios.get(`${import.meta.env.VITE_SERVER}/social/posts`)
-    response.status == 200 &&setPosts(response.data);
+  const [posts, setPosts] = useState([]);
+  const getPosts = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_SERVER}/social/posts`)
+      response.status == 200 && setPosts(response.data);
+    }
+
+    catch (err) {
+      console.error("Error fetching posts:", err);
+    }
   }
-  
-  catch(err){
-    console.error("Error fetching posts:", err);
-  }
-}
-useEffect(()=>{
-  getPosts();
-},[])
+  useEffect(() => {
+    getPosts();
+  }, [])
   // Simulating navigation on click
   const [activePost, setActivePost] = useState(null);
   const Navigate = useNavigate();
@@ -37,12 +37,12 @@ useEffect(()=>{
 
   return (
     <div className="min-h-screen mt-[100px] bg-gray-100 py-10 px-4 font-sans text-gray-800">
-      
+
       {/* Profile Header Simulation */}
       <div className="max-w-4xl mx-auto text-center mb-16">
         <h1 className="text-3xl font-bold text-blue-600 mb-2">My Programming Timeline</h1>
         <p className="text-gray-600">A straight-line tree of my thoughts and achievements</p>
-        
+
         {/* Navigation Feedback Prompt */}
         {activePost && (
           <div className="mt-4 p-4 bg-blue-50 border border-blue-200 text-blue-700 rounded-lg animate-pulse">
@@ -53,7 +53,7 @@ useEffect(()=>{
 
       {/* Main Timeline Wrapper */}
       <div className="relative max-w-4xl mx-auto">
-        
+
         {/* The Center Vertical Line */}
         <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-blue-500 rounded"></div>
 
@@ -64,29 +64,28 @@ useEffect(()=>{
             const isLeft = index % 2 === 0;
 
             return (
-              <div 
-                key={post._id} 
-                className={`flex items-center w-full justify-between ${
-                  isLeft ? 'flex-row' : 'flex-row-reverse'
-                }`}
+              <div
+                key={post._id}
+                className={`flex items-center w-full justify-between ${isLeft ? 'flex-row' : 'flex-row-reverse'
+                  }`}
               >
                 {/* 1. The Post Card Side */}
                 <div className="w-[45%]">
-                  <div 
+                  <div
                     onClick={() => handlePostClick(post)}
                     className="bg-white p-6 rounded-xl shadow-md border border-gray-200 hover:shadow-xl hover:border-blue-400 transition-all duration-300 cursor-pointer transform hover:-translate-y-1 group"
                   >
-                    <img className="w-[100px]" src={`${import.meta.env.VITE_SERVER}/images/posts/${post.pic}`}/>
-                    
+                    <img className="w-[100px]" src={`${post.pic}`} />
+
                     <div className="flex flex-col">
 
-                    <span className="text-xs  justify-between font-semibold text-blue-500 uppercase tracking-wider block mb-2">
-                      {post.createdAt.split('T')[0]}
-                     
-                    </span>
-                    <span className="text-xs  justify-between font-semibold text-blue-500 uppercase tracking-wider block mb-2">
-                     {post.createdAt.split('T')[1].split('.')[0].split(':')[0] + ":" + post.createdAt.split('T')[1].split('.')[0].split(':')[1]}
-                    </span>
+                      <span className="text-xs  justify-between font-semibold text-blue-500 uppercase tracking-wider block mb-2">
+                        {post.createdAt.split('T')[0]}
+
+                      </span>
+                      <span className="text-xs  justify-between font-semibold text-blue-500 uppercase tracking-wider block mb-2">
+                        {post.createdAt.split('T')[1].split('.')[0].split(':')[0] + ":" + post.createdAt.split('T')[1].split('.')[0].split(':')[1]}
+                      </span>
                     </div>
                     <h3 className="text-lg font-bold text-gray-900 group-hover:text-blue-600 transition-colors duration-200">
                       {post.title}

@@ -75,7 +75,7 @@ function Navbar({ }: Props) {
           <div className={`h-[3px]  ${openNav ? "invisible" : "visible"} bg-black w-[15px]`}></div>
           <div className={`h-[3px] transition-all duration-[1000ms] ${openNav ? "rotate-[-45deg] absolute" : "rotate-0"} bg-black w-[15px]`}></div>
         </div>
-        <img onClick={() => { navigate('/') }} src="/SaSha.png" alt="Logo" className="cursor-pointer h-[40px] w-[100px] object-contain" />
+        <img onClick={() => { navigate('/') }} src="/mosasha/SaSha.png" alt="Logo" className="cursor-pointer h-[40px] w-[100px] object-contain" />
         {/* <h1 onClick={()=>{navigate('/')}} className="outline cursor-pointer flex  px-4">KON</h1> */}
       </div>
 

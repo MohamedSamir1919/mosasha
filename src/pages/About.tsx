@@ -6,10 +6,10 @@ const About = (props: Props) => {
     return (
         <div className="flex flex-col justify-center mt-[100px] items-center">
             {/* <h1 className="outline">KON</h1> */}
-            <img src='/SaSha.png' className="w-[200px] h-[200px] rounded-[50%]" />
+            <img src='/mosasha/SaSha.png' className="w-[200px] h-[200px] rounded-[50%]" />
             <div className="flex">
                 <p className="float-left">
-                    <img className="float-right h-[200px] sm:flex hidden" src={`/question.png`} />
+                    <img className="float-right h-[200px] sm:flex hidden" src={`/mosasha/question.png`} />
 
                     We are a created this website for make our items available for you in simple way<br />
                     We appreciate your support and we hope you enjoy using our website and find what you are looking for.
@@ -24,7 +24,7 @@ const About = (props: Props) => {
                         <div className="
                     rounded-[50%] overflow-hidden w-[150px] h-[150px] flex justify-center items-center bg-gray-200
                     ">
-                            <img className="w-[100px] " src="/none.png" />
+                            <img className="w-[100px] " src="/mosasha/none.png" />
                         </div>
                         <div className="w-[150px]">
                             <h3 className="text-gray-300">Mohamed Samir </h3>
@@ -39,12 +39,12 @@ const About = (props: Props) => {
                         <div className="
                     rounded-[50%] overflow-hidden w-[150px] h-[150px] flex justify-center items-center bg-gray-200
                     ">
-                            <img className="w-[100px] " src="/none.png" />
+                            <img className="w-[100px] " src="/mosasha/none.png" />
                         </div>
                         <div className="w-[150px]">
-                            <h3 className="text-gray-300">Ahmed Samir </h3>
+                            <h3 className="text-gray-300">also me</h3>
                             <p className="">
-                                Owner of the company, He is the backbone of it
+                                nothing more
                             </p>
                         </div>
                     </div>
@@ -53,12 +53,12 @@ const About = (props: Props) => {
                         <div className="
                     rounded-[50%] overflow-hidden w-[150px] h-[150px] flex justify-center items-center bg-gray-200
                     ">
-                            <img className="w-[100px] " src="/none.png" />
+                            <img className="w-[100px] " src="/mosasha/none.png" />
                         </div>
                         <div className="w-[150px]">
-                            <h3 className="text-gray-300">Samir Shaaban</h3>
+                            <h3 className="text-gray-300">it's me</h3>
                             <p className="">
-                                Sponsor, We are grateful for his support
+                                what you think !
                             </p>
                         </div>
                     </div>
