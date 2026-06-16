@@ -8,9 +8,9 @@ type Props = {}
 const Shopping = (props: Props) => {
   return (
     <div className='w-full'>
-        <SaleBaner/>
-        <ShoppingShow/>
-        <Footer/>
+      <SaleBaner />
+      <ShoppingShow />
+      <Footer />
     </div>
   )
 }

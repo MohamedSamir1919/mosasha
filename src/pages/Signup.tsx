@@ -6,10 +6,12 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 type Inputs = {
-  username: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   confirmPassword: string;
+  telephone: string; // Added telephone field
 };
 
 const Signup = () => {
@@ -35,7 +37,11 @@ const Signup = () => {
       // We don't want to send confirmPassword to the server
       const { confirmPassword, ...signupData } = data;
 
-      const res = await axios.post(`${import.meta.env.VITE_SERVER}/auth`, signupData);
+      const res = await axios.post(`${import.meta.env.VITE_SERVER}/auth`, signupData, {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`
+        }
+      });
 
       if (res.status === 200) {
         Cookies.set("token", res.data);
@@ -62,14 +68,6 @@ const Signup = () => {
       >
         <h2 className="text-2xl font-bold text-gray-800 mb-6">Create Account</h2>
 
-        <div className="w-full flex flex-col mb-4">
-          <input
-            className="bg-gray-100 p-2 rounded outline-none border focus:border-gray-400 transition-all"
-            placeholder="Username"
-            {...register("username", { required: "Username is required" })}
-          />
-          {errors.username && <span className="text-red-500 text-xs mt-1">{errors.username.message}</span>}
-        </div>
 
         <div className="w-full flex flex-col mb-4">
           <input
@@ -85,6 +83,23 @@ const Signup = () => {
             })}
           />
           {errors.email && <span className="text-red-500 text-xs mt-1">{errors.email.message}</span>}
+        </div>
+        <div className="w-full flex flex-col mb-4">
+          <input
+            className="bg-gray-100 p-2 rounded outline-none border focus:border-gray-400 transition-all"
+            placeholder="First Name"
+            {...register("firstName", { required: "First name is required" })}
+          />
+          {errors.firstName && <span className="text-red-500 text-xs mt-1">{errors.firstName.message}</span>}
+        </div>
+
+        <div className="w-full flex flex-col mb-4">
+          <input
+            className="bg-gray-100 p-2 rounded outline-none border focus:border-gray-400 transition-all"
+            placeholder="Last Name"
+            {...register("lastName", { required: "Last name is required" })}
+          />
+          {errors.lastName && <span className="text-red-500 text-xs mt-1">{errors.lastName.message}</span>}
         </div>
 
         <div className="w-full flex flex-col mb-4 relative">
@@ -117,6 +132,23 @@ const Signup = () => {
             })}
           />
           {errors.confirmPassword && <span className="text-red-500 text-xs mt-1">{errors.confirmPassword.message}</span>}
+        </div>
+
+        {/* Telephone Input */}
+        <div className="w-full flex flex-col mb-4">
+          <input
+            className="bg-gray-100 p-2 rounded outline-none border focus:border-gray-400 transition-all"
+            placeholder="Phone Number"
+            type="tel" // Use type="tel" for phone numbers
+            {...register("telephone", {
+              required: "Phone number is required",
+              pattern: {
+                value: /^01[0-2]\d{8}$/, // Example for Egyptian numbers (11 digits starting with 010, 011, or 012)
+                message: "Please enter a valid Egyptian phone number (e.g., 01XXXXXXXXX)"
+              }
+            })}
+          />
+          {errors.telephone && <span className="text-red-500 text-xs mt-1">{errors.telephone.message}</span>}
         </div>
 
         {serverError && <div className="text-red-500 text-sm mb-4 text-center font-medium">{serverError}</div>}

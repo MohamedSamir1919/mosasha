@@ -261,7 +261,7 @@ const Product = (props: Props) => {
                                         <img
                                             className="w-full h-full object-cover object-center cursor-pointer group-hover:opacity-75 transition-opacity"
                                             onClick={() => { navigate(`/shopping/${it._id}`); window.scrollTo(0, 0); }}
-                                            src={`/${it.img}`}
+                                            src={`${it.img}`}
                                             alt={it.title}
                                         />
                                     </div>

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import { useTranslation } from 'react-i18next';
+import ProductCardSkeleton from './ProductCardSkeleton';
 
 type Props = {}
 type IItem = {
@@ -20,28 +21,36 @@ type IItem = {
   published: boolean;
   price: number;
   category: string;
+  createdAt: string;
 };
 const BestSell = (props: Props) => {
   const [products, setProducts] = useState<IItem[]>([]);
+  const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState();
   const { t, i18n } = useTranslation();
 
   const getProducts = async () => {
-    const ordRes = await axios.get(`${import.meta.env.VITE_SERVER}/order/best-sell`
-    )
+    setLoading(true);
+    try {
+      const [ordRes, res] = await Promise.all([
+        axios.get(`${import.meta.env.VITE_SERVER}/order/best-sell`),
+        axios.get(`${import.meta.env.VITE_SERVER}/products`)
+      ]);
 
-    const res = await axios.get(`${import.meta.env.VITE_SERVER}/products`);
-    if (res.status == 200, ordRes.status = 200) {
-
-      setProducts(res.data.sort((a, b) => {
-        if (ordRes.data.filter((o) => o.slug == a.slug).length > ordRes.data.filter((o) => o.slug == a.slug).length) {
-          return -1
-        }
-        else return 1
-      }));
-
-    } else {
-
+      if (res.status === 200 && ordRes.status === 200) {
+        setProducts(res.data.sort((a, b) => {
+          const countA = ordRes.data.filter((o) => o.slug === a.slug).length;
+          const countB = ordRes.data.filter((o) => o.slug === b.slug).length;
+          if (countA > countB) {
+            return -1;
+          }
+          else return 1;
+        }));
+      }
+    } catch (error) {
+      console.error("Error loading best sellers:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -54,7 +63,9 @@ const BestSell = (props: Props) => {
       <h2 className="">{t("The Newest")}</h2>
       <hr className="w-[200px] h-[1px] bg-black" />
       <div className="w-full p-2  grid gap-x-2 gap-y-1 m-auto lg:grid-cols-4 align-center md:grid-cols-3 grid-cols-2 grid-flow-row ">
-        {products?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).filter((p) => { return p.published }).map((item, index) => index > 11 ? null : (
+        {loading ? (
+          [...Array(4)].map((_, index) => <ProductCardSkeleton key={index} />)
+        ) : products?.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).filter((p) => { return p.published }).map((item, index) => index > 11 ? null : (
           <div key={index} data-aos="fade-up" className='col-span-1 mx-auto  flex flex-col sm:w-[230px] w-[150px] rounded-xl'>
             <div className='relative h-[100%] flex justify-center rounded-xl'>
               <div className="lg:h-[300px] w-full md:h-[350px] sm:h-[350px] h-[230px]">

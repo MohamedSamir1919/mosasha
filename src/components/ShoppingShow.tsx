@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
 import ProductCard from './ProductCard';
-import { FaSpinner } from 'react-icons/fa';
-import { useTranslation } from 'react-i18next';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { SEO } from './SEO';
+import ShoppingSkeleton from './ShoppingSkeleton';
 
 interface IItem {
     _id: string;
@@ -36,7 +35,7 @@ interface ICategory {
 }
 
 const ShoppingShow: React.FC = () => {
-    const { t } = useTranslation();
+
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const catQuery = searchParams.get('cat');
@@ -131,10 +130,7 @@ const ShoppingShow: React.FC = () => {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center min-h-[400px]">
-                <FaSpinner className="animate-spin text-4xl text-indigo-600" />
-                <p className="ml-3 text-lg text-gray-700">Loading Products...</p>
-            </div>
+            <ShoppingSkeleton />
         );
     }
 
@@ -149,15 +145,17 @@ const ShoppingShow: React.FC = () => {
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <SEO
-                title={catQuery ? `${t("Shop")} - ${catQuery}` : t("Shop All Products")}
-                description={t("Discover our latest collection of high-quality products. Shop now for the best deals at SaSha Store.")}
+                title={catQuery ? `"Shop" - ${catQuery}` : "Shop All Products"}
+                description="Discover our latest collection of
+                 high-quality products. Shop now for the best 
+                 deals at SaSha Store."
                 keywords={`shopping, fashion, online store, ${catQuery || 'men, women'}`}
             />
             {/* Filter and Sort Controls */}
             <div className="mb-8 p-4 bg-white rounded-lg shadow">
                 <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
                     <div>
-                        <label htmlFor="minPrice" className="block text-sm font-medium text-gray-700">{t("Min Price (EGP)")}</label>
+                        <label htmlFor="minPrice" className="block text-sm font-medium text-gray-700">Min Price (EGP)</label>
                         <input
                             type="number"
                             id="minPrice"
@@ -168,7 +166,7 @@ const ShoppingShow: React.FC = () => {
                         />
                     </div>
                     <div>
-                        <label htmlFor="maxPrice" className="block text-sm font-medium text-gray-700">{t("Max Price (EGP)")}</label>
+                        <label htmlFor="maxPrice" className="block text-sm font-medium text-gray-700">Max Price (EGP)</label>
                         <input
                             type="number"
                             id="maxPrice"
@@ -179,22 +177,22 @@ const ShoppingShow: React.FC = () => {
                         />
                     </div>
                     <div>
-                        <label htmlFor="sortBy" className="block text-sm font-medium text-gray-700">{t("Sort By")}</label>
+                        <label htmlFor="sortBy" className="block text-sm font-medium text-gray-700">"Sort By</label>
                         <select
                             id="sortBy"
                             value={sortBy}
                             onChange={(e) => setSortBy(e.target.value)}
                             className="mt-1 block w-full border border-gray-300 bg-white rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         >
-                            <option value="default">{t("Default")}</option>
-                            <option value="newest">{t("Newest Arrivals")}</option>
-                            <option value="priceLowToHigh">{t("Price: Low to High")}</option>
-                            <option value="priceHighToLow">{t("Price: High to Low")}</option>
+                            <option value="default">{"Default"}</option>
+                            <option value="newest">{"Newest Arrivals"}</option>
+                            <option value="priceLowToHigh">{"Price: Low to High"}</option>
+                            <option value="priceHighToLow">{"Price: High to Low"}</option>
                         </select>
                     </div>
 
                     <div>
-                        <label htmlFor="categorySelect" className="block text-sm font-medium text-gray-700">{t("Categories")}</label>
+                        <label htmlFor="categorySelect" className="block text-sm font-medium text-gray-700">Categories"</label>
                         <select
                             id="categorySelect"
                             value={catQuery || 'default'}
@@ -207,7 +205,7 @@ const ShoppingShow: React.FC = () => {
                             }}
                             className="mt-1 block w-full border border-gray-300 bg-white rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         >
-                            <option value="default">{t("Default")}</option>
+                            <option value="default">{"Default"}</option>
                             {categories?.length > 0 && categories?.map((cat) => (
                                 <option key={cat._id} value={cat.name}>{cat.name}</option>
                             ))}
@@ -225,7 +223,7 @@ const ShoppingShow: React.FC = () => {
                     ))}
                 </div>
             ) : (
-                <div className="text-center py-10 text-gray-500 text-lg">{t("No Items Found")}</div>
+                <div className="text-center py-10 text-gray-500 text-lg">{"No Items Found"}</div>
             )}
         </div>
     );

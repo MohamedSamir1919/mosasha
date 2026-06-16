@@ -1,41 +1,100 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import { useTranslation } from 'react-i18next';
+import React, { useState, useEffect, useMemo } from 'react'
+import axios, { AxiosError } from 'axios'
+import Skeleton from './Skeleton'
 
-type Props = {}
+interface Banner {
+  id: string
+  name: string
+  title: string
+  img: string
+}
 
-const SaleBaner = (props: Props) => {
+interface BannerResponse extends Array<Banner> { }
 
-  const [banners, setBanners] = useState();
-  const getBanners = async () => {
-    const res = await axios.get(`${import.meta.env.VITE_SERVER}/setting/get-banner`)
-    if (res.status == 200) {
-      setBanners(res.data)
+const SaleBanner: React.FC = () => {
+  const [banners, setBanners] = useState<BannerResponse | null>(null)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [error, setError] = useState<string | null>(null)
+
+  const shopBanner = useMemo(() => {
+    if (!banners || banners.length === 0) return null
+    const filteredBanners = banners.filter((banner) => banner.name === 'shop banner')
+    return filteredBanners.length > 0 ? filteredBanners[filteredBanners.length - 1] : null
+  }, [banners])
+
+  const fetchBanners = async (): Promise<void> => {
+    try {
+      setIsLoading(true)
+      setError(null)
+      const serverUrl = import.meta.env.VITE_SERVER
+      const response = await axios.get<BannerResponse>(`${serverUrl}/setting/get-banner`)
+
+      if (response.status === 200) {
+        setBanners(response.data)
+      }
+    } catch (err) {
+      const errorMessage = err instanceof AxiosError
+        ? err.message
+        : 'Failed to load banner'
+      setError(errorMessage)
+      console.error('Error fetching banners:', err)
+    } finally {
+      setIsLoading(false)
     }
   }
-  useEffect(() => { getBanners() }, [])
-  const { t, i18n } = useTranslation();
 
+  useEffect(() => {
+    fetchBanners()
+  }, [])
+
+  if (isLoading) {
+    return (
+      <div className='w-full flex justify-center p-4'>
+        <div className='flex relative items-center mt-12 justify-center w-full'>
+          <Skeleton className='h-80 w-full rounded-lg' />
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className='w-full flex justify-center p-4'>
+        <div className='flex relative items-center mt-12 justify-center w-full'>
+          <div className='h-80 w-full bg-gray-200 rounded-lg flex items-center justify-center'>
+            <p className='text-gray-600 font-medium'>Unable to load banner</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (!shopBanner) {
+    return null
+  }
 
   return (
-    <div className='w-full '>
-      <div className=""></div>
-      <div className="w-full flex  justify-center p-4">
-        <div className='flex relative items-center mt-[50px] justify-center'>
-          <div className='absolute top-0 left-0 
-            bg-[rgba(0,0,0,.5)] flex justify-center flex-col items-center w-full h-full'>
-            <h1 className='font-bold text-4xl p-2 text-white bg-gradient-to-r from-black to-gray-700'>{
-              banners?.length > 0 && banners?.filter((i) => i.name == "shop banner")[banners?.filter((i) => i.name == "shop banner").length - 1]?.title
-            }</h1>
+    <div className='w-full'>
+      <div className='w-full flex justify-center p-4'>
+        <div className='relative w-full flex items-center justify-center mt-12 overflow-hidden rounded-lg'>
+          {/* Overlay */}
+          <div className='absolute inset-0 bg-gradient-to-r from-black/50 to-black/30 flex flex-col items-center justify-center z-10'>
+            <h1 className='font-bold text-2xl md:text-4xl px-4 py-2 text-white text-center drop-shadow-lg'>
+              {shopBanner.title}
+            </h1>
           </div>
-          {banners?.length > 0 && <img className='h-[300px]'
-            src={`${banners?.filter((i) => i.name == "shop banner")[banners?.filter((i) => i.name == "shop banner").length - 1]?.img}`} />
-          }
 
+          {/* Banner Image */}
+          <img
+            src={shopBanner.img}
+            alt={shopBanner.title}
+            className='h-80 w-full object-cover'
+            loading='lazy'
+          />
         </div>
       </div>
     </div>
   )
 }
 
-export default SaleBaner
+export default SaleBanner

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next';
+import Skeleton from './Skeleton';
 
 interface IBannerItem {
     name: string;
@@ -16,20 +17,29 @@ const CategoriesShow = (props: Props) => {
 
     const navigate = useNavigate();
     const [banners, setBanners] = useState<IBannerItem[]>([]);
+    const [loading, setLoading] = useState(true);
+
     const getBanners = async () => {
-        const res = await axios.get(`${import.meta.env.VITE_SERVER}/setting/get-banner`)
-        if (res.status == 200) {
-            console.log("res", res.data)
-            setBanners(res.data)
+        setLoading(true);
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_SERVER}/setting/get-banner`)
+            if (res.status == 200) {
+                console.log("res", res.data)
+                setBanners(res.data)
+            }
+        } catch (error) {
+            console.error("Error fetching banners:", error);
+        } finally {
+            setLoading(false);
         }
     }
+
     useEffect(() => {
         if (!banners || banners.length === 0) {
-
             getBanners()
         }
     }, [banners])
-    // useEffect(() => { console.log(banners) }, [banners])
+
     let [lastMenBanner, setLastMenBanner] = useState<IBannerItem | null>(null);
     let [lastWomenBanner, setLastWomenBanner] = useState<IBannerItem | null>(null);
     useEffect(() => {
@@ -41,6 +51,22 @@ const CategoriesShow = (props: Props) => {
         const lastWomenBanner = womenBanners[womenBanners.length - 1];
         setLastWomenBanner(lastWomenBanner);
     }, [banners])
+
+    if (loading) {
+        return (
+            <div className="w-full grid grid-cols-2 relative">
+                <div className="col-span-1 h-[90vh] overflow-hidden p-2">
+                    <Skeleton className="w-full h-full" />
+                </div>
+                <div className="col-span-1 h-[90vh] overflow-hidden p-2">
+                    <Skeleton className="w-full h-full" />
+                </div>
+                <div className="col-span-2 h-[90vh] overflow-hidden p-2">
+                    <Skeleton className="w-full h-full" />
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="w-full grid grid-cols-2 relative">
@@ -94,7 +120,7 @@ const CategoriesShow = (props: Props) => {
                     <div
 
                         className="absolute flex z-10 justify-center items-center top-0
-         hover:bg-[rgba(0,0,0,.4)] md:opacity-0 
+         hover:bg-[rgba(0,0,0,.4)] md:opacity-0  
          hover:md:opacity-100 opacity-100 left-0 w-full h-full">
 
                         <div
@@ -131,11 +157,13 @@ const CategoriesShow = (props: Props) => {
                         </div>
                     </div>
                 )}
-                {lastWomenBanner && (
-                    <img className="w-full"
+                {lastWomenBanner ? (
+                    <img className="w-full h-full object-cover"
                         alt="loading"
                         src={lastWomenBanner?.img} />
-                )}
+                ) : <Skeleton
+
+                    className="w-full h-full" />}
             </div>
             <div className="col-span-2 relative z-[1] max-h-[90vh] overflow-hidden">
                 <div className="absolute z-[10] flex justify-center items-center top-0
@@ -170,7 +198,7 @@ const CategoriesShow = (props: Props) => {
                         }}
                         className="font-black men px-8  cursor-pointer bg-gradient-to-r text-gray-400 from-gray-700  to-black rounded-lg text-[32px]">{t("who are we ?")}</div>
                 </div>
-                <img className="w-full" src='/mosasha/pngwing.com.png' />
+                <img className="w-full h-full object-cover" src='/mosasha/pngwing.com.png' />
             </div>
         </div>
     )
